@@ -74,13 +74,15 @@ class SeparatorCollectionViewFlowLayout: UICollectionViewFlowLayout {
       switch elementKind {
       case SeparatorCollectionViewFlowLayout.rightSeparatorKind:
         layoutAttributes.frame = CGRect(x: baseFrame.maxX,
-          y: baseFrame.minY, width: separatorWidth, height: baseFrame.height)
+          y: baseFrame.minY - separatorWidth, width: separatorWidth,
+          height: baseFrame.height + separatorWidth * 2)
       case SeparatorCollectionViewFlowLayout.leftSeparatorKind:
-        layoutAttributes.frame = CGRect(x: baseFrame.minX,
-          y: baseFrame.minY, width: separatorWidth, height: baseFrame.height)
+        layoutAttributes.frame = CGRect(x: baseFrame.minX - separatorWidth,
+          y: baseFrame.minY - separatorWidth, width: separatorWidth,
+          height: baseFrame.height + separatorWidth * 2)
       case SeparatorCollectionViewFlowLayout.topSeparatorKind:
         layoutAttributes.frame = CGRect(x: baseFrame.minX,
-          y: baseFrame.minY, width: baseFrame.width,
+          y: baseFrame.minY - separatorWidth, width: baseFrame.width,
           height: separatorWidth)
       case SeparatorCollectionViewFlowLayout.bottomSeparatorKind:
         layoutAttributes.frame = CGRect(x: baseFrame.minX,
