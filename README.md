@@ -14,7 +14,7 @@ A UICollectionViewFlowLayout implementation to allow separators between cells.
 
 # Usage
 
-# Programatically
+## 1. Programatically
 
 ```swift
 import Foundation
@@ -43,7 +43,7 @@ class SomeViewController: UIViewController: UICollectionViewDataSource, UICollec
 }
 ```
 
-# Storyboard
+## 2. Storyboard
 
 Just change the default class of your `UICollectionViewFlowLayout` to `SeparatorCollectionViewFlowLayout` and set the `Separator Width` and `Separator Color` properties.
 
