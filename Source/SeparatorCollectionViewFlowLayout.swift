@@ -73,23 +73,24 @@ class SeparatorCollectionViewFlowLayout: UICollectionViewFlowLayout {
 
       switch elementKind {
       case SeparatorCollectionViewFlowLayout.rightSeparatorKind:
-        layoutAttributes.frame = CGRect(x: baseFrame.maxX - (separatorWidth / 2),
+        layoutAttributes.frame = CGRect(x: baseFrame.maxX,
           y: baseFrame.minY, width: separatorWidth, height: baseFrame.height)
       case SeparatorCollectionViewFlowLayout.leftSeparatorKind:
-        layoutAttributes.frame = CGRect(x: baseFrame.minX - (separatorWidth / 2),
+        layoutAttributes.frame = CGRect(x: baseFrame.minX,
           y: baseFrame.minY, width: separatorWidth, height: baseFrame.height)
       case SeparatorCollectionViewFlowLayout.topSeparatorKind:
         layoutAttributes.frame = CGRect(x: baseFrame.minX,
-          y: baseFrame.minY - (separatorWidth / 2), width: baseFrame.width,
+          y: baseFrame.minY, width: baseFrame.width,
           height: separatorWidth)
       case SeparatorCollectionViewFlowLayout.bottomSeparatorKind:
         layoutAttributes.frame = CGRect(x: baseFrame.minX,
-          y: baseFrame.maxY - (separatorWidth / 2), width: baseFrame.width,
+          y: baseFrame.maxY, width: baseFrame.width,
           height: separatorWidth)
       default:
         break
       }
 
+      layoutAttribute.zIndex = -1
       layoutAttributes.color = separatorColor
 
       return layoutAttributes
