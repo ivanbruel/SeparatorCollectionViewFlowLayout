@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "SeparatorCollectionViewFlowLayout"
-  s.version      = "1.0.3"
+  s.version      = "1.0.4"
   s.summary      = "A UICollectionViewFlowLayout implementation to allow separators between cells"
   s.description  = <<-EOS
   A UICollectionViewFlowLayout implementation to allow separators between cells
