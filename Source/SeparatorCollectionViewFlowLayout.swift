@@ -90,7 +90,7 @@ class SeparatorCollectionViewFlowLayout: UICollectionViewFlowLayout {
         break
       }
 
-      layoutAttribute.zIndex = -1
+      layoutAttributes.zIndex = -1
       layoutAttributes.color = separatorColor
 
       return layoutAttributes
