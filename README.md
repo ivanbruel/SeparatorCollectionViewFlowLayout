@@ -4,6 +4,8 @@ Moya-SeparatorCollectionViewFlowLayout
 
 A UICollectionViewFlowLayout implementation to allow separators between cells.
 
+Be sure to allow spacing between cells to be able to show the separator!
+
 ![Example](http://i.imgur.com/MePIPmA.png)
 
 # Installation
