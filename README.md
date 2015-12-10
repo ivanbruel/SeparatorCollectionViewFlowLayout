@@ -1,0 +1,2 @@
+# SeparatorCollectionViewFlowLayout
+A UICollectionViewFlowLayout implementation to allow separators between cells
