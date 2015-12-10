@@ -114,14 +114,6 @@ class SeparatorCollectionViewFlowLayout: UICollectionViewFlowLayout {
       return layoutAttributes
   }
 
-  private func indexPathIsLastInSection(indexPath: NSIndexPath) -> Bool {
-    guard let collectionView = collectionView, dataSource = collectionView.dataSource else {
-      return false
-    }
-    return indexPath.row == dataSource
-      .collectionView(collectionView, numberOfItemsInSection: indexPath.section) - 1
-  }
-
 }
 
 private class ColoredViewLayoutAttributes: UICollectionViewLayoutAttributes {
