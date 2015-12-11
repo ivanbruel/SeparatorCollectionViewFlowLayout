@@ -24,7 +24,7 @@ import UIKit
 import SeparatorCollectionViewFlowLayout
 
 // MARK: Initializer and Properties
-class SomeViewController: UIViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+class SomeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 
   let collectionView: UICollectionView
   let separatorCollectionViewFlowLayout: SeparatorCollectionViewFlowLayout
