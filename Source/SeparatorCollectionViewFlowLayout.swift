@@ -41,13 +41,13 @@ class SeparatorCollectionViewFlowLayout: UICollectionViewFlowLayout {
     super.prepareLayout()
 
     registerClass(SeparatorView.self,
-      forDecorationViewOfKind: SeparatorKind.topSeparator.rawValue)
+      forDecorationViewOfKind: SeparatorKind.topSeparator)
     registerClass(SeparatorView.self,
-      forDecorationViewOfKind: SeparatorKind.bottomSeparator.rawValue)
+      forDecorationViewOfKind: SeparatorKind.bottomSeparator)
     registerClass(SeparatorView.self,
-      forDecorationViewOfKind: SeparatorKind.rightSeparator.rawValue)
+      forDecorationViewOfKind: SeparatorKind.rightSeparator)
     registerClass(SeparatorView.self,
-      forDecorationViewOfKind: SeparatorKind.leftSeparator.rawValue)
+      forDecorationViewOfKind: SeparatorKind.leftSeparator)
   }
 
   override func layoutAttributesForDecorationViewOfKind(elementKind: String,
@@ -129,25 +129,24 @@ private enum SeparatorKind: String {
 
   func transform(frame baseFrame: CGRect, with separatorWidth: CGFloat) -> CGRect {
     switch self {
+
     case .topSeparator:
-      return CGRect(x: baseFrame.minX,
-        y: baseFrame.minY - separatorWidth, width: baseFrame.width,
-        height: separatorWidth)
+      return CGRect(x: baseFrame.minX, y: baseFrame.minY - separatorWidth, width: baseFrame.width, height: separatorWidth)
+
     case .bottomSeparator:
-      return CGRect(x: baseFrame.minX,
-        y: baseFrame.maxY, width: baseFrame.width,
-        height: separatorWidth)
+      return CGRect(x: baseFrame.minX, y: baseFrame.maxY, width: baseFrame.width, height: separatorWidth)
+
     case .leftSeparator:
-      return CGRect(x: baseFrame.minX - separatorWidth,
-        y: baseFrame.minY - separatorWidth, width: separatorWidth,
-        height: baseFrame.height + separatorWidth * 2)
-      
+      return CGRect(x: baseFrame.minX - separatorWidth, y: baseFrame.minY - separatorWidth, width: separatorWidth, height: baseFrame.height + separatorWidth * 2)
+
     case .rightSeparator:
-      return CGRect(x: baseFrame.maxX,
-        y: baseFrame.minY - separatorWidth, width: separatorWidth,
-        height: baseFrame.height + separatorWidth * 2)
-      
+      return CGRect(x: baseFrame.maxX, y: baseFrame.minY - separatorWidth, width: separatorWidth, height: baseFrame.height + separatorWidth * 2)
     }
   }
-  
+}
+
+extension UICollectionViewFlowLayout {
+  private func registerClass(viewClass: AnyClass?, forDecorationViewOfKind elementKind: SeparatorKind) {
+    registerClass(viewClass, forDecorationViewOfKind: elementKind.rawValue)
+  }
 }
