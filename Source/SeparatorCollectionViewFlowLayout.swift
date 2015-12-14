@@ -23,14 +23,6 @@ class SeparatorCollectionViewFlowLayout: UICollectionViewFlowLayout {
     }
   }
 
-  private static let topSeparatorKind = "SeparatorCollectionViewFlowLayout.Top"
-  private static let bottomSeparatorKind = "SeparatorCollectionViewFlowLayout.Bottom"
-  private static let leftSeparatorKind = "SeparatorCollectionViewFlowLayout.Left"
-  private static let rightSeparatorKind = "SeparatorCollectionViewFlowLayout.Right"
-
-  private static let separatorKinds = [leftSeparatorKind, rightSeparatorKind, topSeparatorKind,
-    bottomSeparatorKind]
-
   init(separatorWidth: CGFloat = 1, separatorColor: UIColor = UIColor.blackColor()) {
     self.separatorWidth = separatorWidth
     self.separatorColor = separatorColor
@@ -49,13 +41,13 @@ class SeparatorCollectionViewFlowLayout: UICollectionViewFlowLayout {
     super.prepareLayout()
 
     registerClass(SeparatorView.self,
-      forDecorationViewOfKind: SeparatorCollectionViewFlowLayout.topSeparatorKind)
+      forDecorationViewOfKind: SeparatorKind.topSeparator)
     registerClass(SeparatorView.self,
-      forDecorationViewOfKind: SeparatorCollectionViewFlowLayout.bottomSeparatorKind)
+      forDecorationViewOfKind: SeparatorKind.bottomSeparator)
     registerClass(SeparatorView.self,
-      forDecorationViewOfKind: SeparatorCollectionViewFlowLayout.leftSeparatorKind)
+      forDecorationViewOfKind: SeparatorKind.rightSeparator)
     registerClass(SeparatorView.self,
-      forDecorationViewOfKind: SeparatorCollectionViewFlowLayout.rightSeparatorKind)
+      forDecorationViewOfKind: SeparatorKind.leftSeparator)
   }
 
   override func layoutAttributesForDecorationViewOfKind(elementKind: String,
@@ -71,26 +63,11 @@ class SeparatorCollectionViewFlowLayout: UICollectionViewFlowLayout {
 
       let baseFrame = cellAttributes.frame
 
-      switch elementKind {
-      case SeparatorCollectionViewFlowLayout.rightSeparatorKind:
-        layoutAttributes.frame = CGRect(x: baseFrame.maxX,
-          y: baseFrame.minY - separatorWidth, width: separatorWidth,
-          height: baseFrame.height + separatorWidth * 2)
-      case SeparatorCollectionViewFlowLayout.leftSeparatorKind:
-        layoutAttributes.frame = CGRect(x: baseFrame.minX - separatorWidth,
-          y: baseFrame.minY - separatorWidth, width: separatorWidth,
-          height: baseFrame.height + separatorWidth * 2)
-      case SeparatorCollectionViewFlowLayout.topSeparatorKind:
-        layoutAttributes.frame = CGRect(x: baseFrame.minX,
-          y: baseFrame.minY - separatorWidth, width: baseFrame.width,
-          height: separatorWidth)
-      case SeparatorCollectionViewFlowLayout.bottomSeparatorKind:
-        layoutAttributes.frame = CGRect(x: baseFrame.minX,
-          y: baseFrame.maxY, width: baseFrame.width,
-          height: separatorWidth)
-      default:
-        break
+      guard let transformedFrame = SeparatorKind.init(rawValue: elementKind)?.transform(frame: baseFrame, with: separatorWidth) else {
+        return nil
       }
+
+      layoutAttributes.frame = transformedFrame
 
       layoutAttributes.zIndex = -1
       layoutAttributes.color = separatorColor
@@ -108,10 +85,9 @@ class SeparatorCollectionViewFlowLayout: UICollectionViewFlowLayout {
       baseLayoutAttributes.filter { $0.representedElementCategory == .Cell }.forEach {
         (layoutAttribute) -> () in
 
-        layoutAttributes += SeparatorCollectionViewFlowLayout.separatorKinds.flatMap {
-          (kind) -> UICollectionViewLayoutAttributes? in
-            layoutAttributesForDecorationViewOfKind(kind, atIndexPath: layoutAttribute.indexPath)
-          }
+        layoutAttributes += SeparatorKind.elements.flatMap { (kind) -> UICollectionViewLayoutAttributes? in
+          layoutAttributesForDecorationViewOfKind(kind.rawValue, atIndexPath: layoutAttribute.indexPath)
+        }
       }
 
       return layoutAttributes
@@ -133,7 +109,44 @@ private class SeparatorView: UICollectionReusableView {
     guard let coloredLayoutAttributes = layoutAttributes as? ColoredViewLayoutAttributes else {
       return
     }
+
     backgroundColor = coloredLayoutAttributes.color
   }
 
+}
+
+private enum SeparatorKind: String {
+  case topSeparator = "SeparatorCollectionViewFlowLayout.Top"
+  case bottomSeparator = "SeparatorCollectionViewFlowLayout.Bottom"
+  case leftSeparator = "SeparatorCollectionViewFlowLayout.Left"
+  case rightSeparator = "SeparatorCollectionViewFlowLayout.Right"
+
+  static var elements: [SeparatorKind] {
+    get {
+      return [.leftSeparator, .rightSeparator, .topSeparator, .bottomSeparator]
+    }
+  }
+
+  func transform(frame baseFrame: CGRect, with separatorWidth: CGFloat) -> CGRect {
+    switch self {
+
+    case .topSeparator:
+      return CGRect(x: baseFrame.minX, y: baseFrame.minY - separatorWidth, width: baseFrame.width, height: separatorWidth)
+
+    case .bottomSeparator:
+      return CGRect(x: baseFrame.minX, y: baseFrame.maxY, width: baseFrame.width, height: separatorWidth)
+
+    case .leftSeparator:
+      return CGRect(x: baseFrame.minX - separatorWidth, y: baseFrame.minY - separatorWidth, width: separatorWidth, height: baseFrame.height + separatorWidth * 2)
+
+    case .rightSeparator:
+      return CGRect(x: baseFrame.maxX, y: baseFrame.minY - separatorWidth, width: separatorWidth, height: baseFrame.height + separatorWidth * 2)
+    }
+  }
+}
+
+extension UICollectionViewFlowLayout {
+  private func registerClass(viewClass: AnyClass?, forDecorationViewOfKind elementKind: SeparatorKind) {
+    registerClass(viewClass, forDecorationViewOfKind: elementKind.rawValue)
+  }
 }
