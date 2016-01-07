@@ -1,15 +1,13 @@
 //
 //  SeparatorCollectionViewFlowLayout.swift
-//  ChicByChoice
 //
 //  Created by Ivan Bruel on 10/12/15.
-//  Copyright © 2015 Chic by Choice. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-class SeparatorCollectionViewFlowLayout: UICollectionViewFlowLayout {
+public class SeparatorCollectionViewFlowLayout: UICollectionViewFlowLayout {
 
   @IBInspectable var separatorWidth: CGFloat = 1 {
     didSet {
@@ -37,15 +35,15 @@ class SeparatorCollectionViewFlowLayout: UICollectionViewFlowLayout {
     super.init()
   }
 
-  required init?(coder aDecoder: NSCoder) {
+  required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
   }
 
-  override class func layoutAttributesClass() -> AnyClass {
+  override public class func layoutAttributesClass() -> AnyClass {
     return ColoredViewLayoutAttributes.self
   }
 
-  override func prepareLayout() {
+  override public func prepareLayout() {
     super.prepareLayout()
 
     registerClass(SeparatorView.self,
@@ -58,7 +56,7 @@ class SeparatorCollectionViewFlowLayout: UICollectionViewFlowLayout {
       forDecorationViewOfKind: SeparatorCollectionViewFlowLayout.rightSeparatorKind)
   }
 
-  override func layoutAttributesForDecorationViewOfKind(elementKind: String,
+  override public func layoutAttributesForDecorationViewOfKind(elementKind: String,
     atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
       super.layoutAttributesForDecorationViewOfKind(elementKind, atIndexPath: indexPath)
 
@@ -98,7 +96,7 @@ class SeparatorCollectionViewFlowLayout: UICollectionViewFlowLayout {
       return layoutAttributes
   }
 
-  override func layoutAttributesForElementsInRect(rect: CGRect)
+  override public func layoutAttributesForElementsInRect(rect: CGRect)
     -> [UICollectionViewLayoutAttributes]? {
       guard let baseLayoutAttributes = super.layoutAttributesForElementsInRect(rect) else {
         return nil
