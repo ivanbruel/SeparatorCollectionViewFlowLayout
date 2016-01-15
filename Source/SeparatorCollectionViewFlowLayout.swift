@@ -8,8 +8,9 @@
 
 import Foundation
 import UIKit
+import UICollectionViewLeftAlignedLayout
 
-public class SeparatorCollectionViewFlowLayout: UICollectionViewFlowLayout {
+public class SeparatorCollectionViewFlowLayout: UICollectionViewLeftAlignedLayout {
 
   @IBInspectable var separatorWidth: CGFloat = 1 {
     didSet {
