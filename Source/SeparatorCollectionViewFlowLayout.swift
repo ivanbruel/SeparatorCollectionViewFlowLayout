@@ -122,7 +122,7 @@ public class SeparatorCollectionViewFlowLayout: UICollectionViewLeftAlignedLayou
 
 private class ColoredViewLayoutAttributes: UICollectionViewLayoutAttributes {
 
-  var color: UIColor = UIColor.blackColor()
+  var color: UIColor = UIColor.clearColor()
 
 }
 
