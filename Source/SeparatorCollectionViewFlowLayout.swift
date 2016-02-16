@@ -63,38 +63,44 @@ public class SeparatorCollectionViewFlowLayout: UICollectionViewLeftAlignedLayou
     atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
       super.layoutAttributesForDecorationViewOfKind(elementKind, atIndexPath: indexPath)
 
-      guard let cellAttributes = layoutAttributesForItemAtIndexPath(indexPath) else {
-        return nil
+      var frame = CGRect.zero
+
+      if let rows = collectionView?.numberOfItemsInSection(0) where indexPath.row < rows {
+        if let cellAttributes = layoutAttributesForItemAtIndexPath(indexPath) {
+          frame = cellAttributes.frame
+        }
       }
 
       let layoutAttributes = ColoredViewLayoutAttributes(forDecorationViewOfKind: elementKind,
         withIndexPath: indexPath)
 
-      let baseFrame = cellAttributes.frame
-
       switch elementKind {
       case SeparatorCollectionViewFlowLayout.rightSeparatorKind:
-        layoutAttributes.frame = CGRect(x: baseFrame.maxX,
-          y: baseFrame.minY - separatorWidth, width: separatorWidth,
-          height: baseFrame.height + separatorWidth * 2)
+        layoutAttributes.frame = CGRect(x: frame.maxX,
+          y: frame.minY - separatorWidth, width: separatorWidth,
+          height: frame.height + separatorWidth * 2)
       case SeparatorCollectionViewFlowLayout.leftSeparatorKind:
-        layoutAttributes.frame = CGRect(x: baseFrame.minX - separatorWidth,
-          y: baseFrame.minY - separatorWidth, width: separatorWidth,
-          height: baseFrame.height + separatorWidth * 2)
+        layoutAttributes.frame = CGRect(x: frame.minX - separatorWidth,
+          y: frame.minY - separatorWidth, width: separatorWidth,
+          height: frame.height + separatorWidth * 2)
       case SeparatorCollectionViewFlowLayout.topSeparatorKind:
-        layoutAttributes.frame = CGRect(x: baseFrame.minX,
-          y: baseFrame.minY - separatorWidth, width: baseFrame.width,
+        layoutAttributes.frame = CGRect(x: frame.minX,
+          y: frame.minY - separatorWidth, width: frame.width,
           height: separatorWidth)
       case SeparatorCollectionViewFlowLayout.bottomSeparatorKind:
-        layoutAttributes.frame = CGRect(x: baseFrame.minX,
-          y: baseFrame.maxY, width: baseFrame.width,
+        layoutAttributes.frame = CGRect(x: frame.minX,
+          y: frame.maxY, width: frame.width,
           height: separatorWidth)
       default:
         break
       }
 
       layoutAttributes.zIndex = -1
-      layoutAttributes.color = separatorColor
+      if let rows = collectionView?.numberOfItemsInSection(0) where indexPath.row >= rows {
+        layoutAttributes.color = UIColor.clearColor()
+      } else {
+        layoutAttributes.color = separatorColor
+      }
 
       return layoutAttributes
   }
